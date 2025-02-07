@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Quiz</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        .quiz-container { width: 400px; margin: auto; }
+        .glow { color: gold; text-shadow: 0px 0px 10px gold; font-size: 2em; }
+        .wrong { color: red; font-size: 2em; }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h2 id="question"></h2>
+        <button id="choice0" onclick="checkAnswer(0)"></button>
+        <button id="choice1" onclick="checkAnswer(1)"></button>
+        <button id="choice2" onclick="checkAnswer(2)"></button>
+        <p id="result"></p>
+        <p id="score"></p>
+        <button onclick="startQuiz()" id="playAgain" style="display:none;">Play Again</button>
+    </div>
+    <script>
+        const questions = [
+            { q: "Capital of France?", a: ["Paris", "London", "Berlin"], correct: 0 },
+            { q: "5 + 3 = ?", a: ["6", "8", "10"], correct: 1 },
+            { q: "Sun rises in the?", a: ["West", "North", "East"], correct: 2 },
+            { q: "H2O is?", a: ["Water", "Oxygen", "Hydrogen"], correct: 0 },
+            { q: "Largest planet?", a: ["Earth", "Jupiter", "Mars"], correct: 1 },
+            { q: "Fastest land animal?", a: ["Cheetah", "Tiger", "Leopard"], correct: 0 },
+            { q: "Square root of 64?", a: ["6", "8", "10"], correct: 1 },
+            { q: "Which is a fruit?", a: ["Tomato", "Potato", "Cabbage"], correct: 0 },
+            { q: "Opposite of hot?", a: ["Cold", "Warm", "Freezing"], correct: 0 },
+            { q: "Number of continents?", a: ["5", "6", "7"], correct: 2 }
+        ];
+        let currentQuestion = 0, score = 0;
+        function startQuiz() {
+            currentQuestion = 0; score = 0;
+            document.getElementById("playAgain").style.display = "none";
+            nextQuestion();
+        }
+        function nextQuestion() {
+            if (currentQuestion < questions.length) {
+                document.getElementById("question").innerText = questions[currentQuestion].q;
+                document.getElementById("choice0").innerText = questions[currentQuestion].a[0];
+                document.getElementById("choice1").innerText = questions[currentQuestion].a[1];
+                document.getElementById("choice2").innerText = questions[currentQuestion].a[2];
+            } else {
+                document.getElementById("score").innerText = `You got ${score}/10 correct.`;
+                document.getElementById("playAgain").style.display = "block";
+            }
+        }
+        function checkAnswer(choice) {
+            let result = document.getElementById("result");
+            if (choice === questions[currentQuestion].correct) {
+                result.innerHTML = "✔";
+                result.className = "glow";
+                score++;
+            } else {
+                result.innerHTML = "✘";
+                result.className = "wrong";
+            }
+            currentQuestion++;
+            setTimeout(nextQuestion, 1000);
+        }
+        startQuiz();
+    </script>
+</body>
+</html>
